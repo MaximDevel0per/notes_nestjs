@@ -1,0 +1,104 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TodosController = void 0;
+// Der Controller definiert die HTTP-Endpunkte (die REST-API).
+// Decorators wie @Get() entsprechen den Attributes [HttpGet] in ASP.NET.
+//
+// Resultierende Routen:
+//   GET    /todos       → alle Todos
+//   GET    /todos/:id   → ein Todo
+//   POST   /todos       → Todo anlegen
+//   PATCH  /todos/:id   → Todo ändern (Titel oder done)
+//   DELETE /todos/:id   → Todo löschen
+const common_1 = require("@nestjs/common");
+const todos_service_1 = require("./todos.service");
+const create_todo_dto_1 = require("./dto/create-todo.dto");
+const update_todo_dto_1 = require("./dto/update-todo.dto");
+let TodosController = class TodosController {
+    // Dependency Injection: NestJS erzeugt den TodosService und
+    // übergibt ihn hier automatisch – wie Constructor Injection in .NET.
+    constructor(todosService) {
+        this.todosService = todosService;
+    }
+    findAll() {
+        return this.todosService.findAll();
+    }
+    // ParseIntPipe wandelt den URL-Parameter (immer ein String)
+    // in eine Zahl um – und antwortet mit 400, wenn das nicht klappt.
+    findOne(id) {
+        return this.todosService.findOne(id);
+    }
+    // @Body() parst den JSON-Body und validiert ihn gegen CreateTodoDto
+    // (dank der globalen ValidationPipe aus main.ts).
+    create(dto) {
+        return this.todosService.create(dto);
+    }
+    update(id, dto) {
+        return this.todosService.update(id, dto);
+    }
+    remove(id) {
+        this.todosService.remove(id);
+    }
+};
+exports.TodosController = TodosController;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Array)
+], TodosController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id')
+    // ParseIntPipe wandelt den URL-Parameter (immer ein String)
+    // in eine Zahl um – und antwortet mit 400, wenn das nicht klappt.
+    ,
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Object)
+], TodosController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Post)()
+    // @Body() parst den JSON-Body und validiert ihn gegen CreateTodoDto
+    // (dank der globalen ValidationPipe aus main.ts).
+    ,
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_todo_dto_1.CreateTodoDto]),
+    __metadata("design:returntype", Object)
+], TodosController.prototype, "create", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_todo_dto_1.UpdateTodoDto]),
+    __metadata("design:returntype", Object)
+], TodosController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, common_1.HttpCode)(204) // 204 No Content – üblich für erfolgreiches Löschen
+    ,
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], TodosController.prototype, "remove", null);
+exports.TodosController = TodosController = __decorate([
+    (0, common_1.Controller)('todos') // Basis-Route: /todos
+    ,
+    __metadata("design:paramtypes", [todos_service_1.TodosService])
+], TodosController);
+//# sourceMappingURL=todos.controller.js.map
