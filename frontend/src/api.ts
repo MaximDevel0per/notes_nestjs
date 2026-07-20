@@ -2,7 +2,10 @@
 // fetch() ist im Browser eingebaut – kein Extra-Paket nötig.
 import { Todo } from './types';
 
-const BASE_URL = 'http://localhost:3000';
+// Relativer Pfad statt fester Adresse: Der Browser schickt die Requests
+// an denselben Host, von dem die Seite kommt. nginx leitet /api ans
+// Backend weiter (siehe nginx.conf). Dadurch kein CORS nötig.
+const BASE_URL = '/api';
 
 async function handle<T>(res: Response): Promise<T> {
   if (!res.ok) {

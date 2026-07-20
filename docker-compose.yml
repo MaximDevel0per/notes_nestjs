@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: DockerFile
+    # Nur nötig, damit du Swagger unter http://localhost:3000/api erreichst.
+    # Das Frontend braucht diese Zeile nicht – es spricht das Backend
+    # über das interne Compose-Netzwerk an.
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    # Startreihenfolge: Compose startet das Backend zuerst. Das heißt nur,
+    # dass der Container läuft – nicht, dass Nest schon Requests annimmt.
+    depends_on:
+      - backend
