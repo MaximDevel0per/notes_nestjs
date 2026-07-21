@@ -1,6 +1,7 @@
 // Formular zum Anlegen. Zeigt ein "kontrolliertes Input":
 // Der Wert des Feldes lebt im React-State, nicht im DOM.
 import { FormEvent, useState } from 'react';
+import styles from './AddTodo.module.css';
 
 interface Props {
   onAdd: (title: string) => void;
@@ -18,7 +19,7 @@ export function AddTodo({ onAdd }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="add-form">
+    <form onSubmit={handleSubmit} className={styles.form}>
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}

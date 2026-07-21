@@ -5,6 +5,9 @@ import * as api from './api';
 import { Todo } from './types';
 import { AddTodo } from './components/AddTodo';
 import { TodoList } from './components/TodoList';
+// styles ist ein Objekt: styles.app enthält den generierten,
+// eindeutigen Klassennamen für die .app-Regel aus App.module.css.
+import styles from './App.module.css';
 
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -53,15 +56,15 @@ export default function App() {
   const openCount = todos.filter((t) => !t.done).length;
 
   return (
-    <main className="app">
-      <h1>Todos</h1>
-      <p className="subtitle">
+    <main className={styles.app}>
+      <h1 className={styles.title}>Todos</h1>
+      <p className={styles.subtitle}>
         {loading ? 'Lade…' : `${openCount} von ${todos.length} offen`}
       </p>
 
       <AddTodo onAdd={handleAdd} />
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
 
       <TodoList todos={todos} onToggle={handleToggle} onDelete={handleDelete} />
     </main>

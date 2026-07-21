@@ -1,0 +1,10 @@
+/* Globale Basis-Styles, die zu keiner einzelnen Komponente gehören.
+   Alles Komponentenspezifische liegt in der jeweiligen *.module.css. */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f4f5f7;
+  color: #1a1a2e;
+}
